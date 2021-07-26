@@ -1,12 +1,15 @@
 song1 = "";
 song2 = "";
 ScoreLeftWrist = "";
-SongStatus = "";
+ScoreRightWrist = "";
+SongStatus1 = "";
+SongStatus2 = "";
 
 leftWristX = "";
 leftWristY = "";
 rightWristX = "";
 rightWristY = "";
+
 function preload() {
     song1 = loadSound("Butter.mp3");
     song2 = loadSound("No Roots.mp3");
@@ -38,13 +41,17 @@ function gotPoses(results) {
         console.log("Right Wrist X = " + rightWristX + "  Right Wrist Y = " + rightWristY);
 
         ScoreLeftWrist = results[0].pose.keypoints[9].score;
+        ScoreRightWrist = results[0].pose.keypoints[10].score;
     }
 }
 
 function draw() {
     image(video, 0, 0, 600, 500);
 
-    SongStatus = song1.isPlaying();
+    
+
+    //1st 
+    SongStatus1 = song1.isPlaying();
 
     fill("red");
     stroke("orange");
@@ -54,9 +61,23 @@ function draw() {
         song2.stop();
 
 
-        if (SongStatus = "false") {
+        if (SongStatus1 = "false") {
             song1.play();
             document.getElementById("song_name").innerHTML = "Butter";
         }
     }
+
+    //2nd
+    SongStatus2 = song2.isPlaying();
+
+    if (ScoreRightWrist > 0.2) {
+        circle(rightWristX, rightWristY, 20);
+        song1.stop();
+
+        if (SongStatus2 = "false") {
+            song2.play();
+            document.getElementById("song_name").innerHTML = "No Roots";
+        }
+    }
+
 }
